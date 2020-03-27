@@ -14,6 +14,7 @@ module fsmProcessador (ack, dado, send, clk, rst);
   	begin
       if (rst == 1)
         S <= 2'b00;
+        send <= 2'b01;
       else 
         S <= NS;
     end
