@@ -30,9 +30,9 @@ module fsmProcessador (ack, dado, send, clk, rst);
       end
       2'b01 : begin
         if (ack == 0)
-          NS = 2'b01;
-        else
           NS = 2'b00;
+        else
+          NS = 2'b01;
       end
 	end
 
