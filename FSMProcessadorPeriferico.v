@@ -6,68 +6,69 @@
 module testaprocessadorperifericos;
 
 	// Inputs
-	reg TA;
-	reg TB;
-	reg clk;
+	reg P;
+	reg ackInput;
 	reg rst;
 
+	reg dadoInput;
+	reg sendInput;
+
+	reg clkProcessador;
+	reg clkPeriferico1;
+	reg clkPeriferico2;
+
 	// Outputs
-	wire [1:0] LA;
-	wire [1:0] LB;
+	wire [15:0] dado;
+	wire [1:0] send;
+	wire [1:0] ack;
 
 	// Instantiate the Unit Under Test (UUT)
-	fsmProcessador uut (
-		.TA(TA), 
-		.TB(TB), 
-		.LA(LA), 
-		.LB(LB), 
-		.clk(clk), 
+	fsmProcessador uut1 (
+		.P(P),
+		.ack(ackInput), 
+		.dado(dado), 
+		.send(send), 
+		.clk(clkProcessador), 
 		.rst(rst)
 	);
 
-	fsmPeriferico1 uut (
-		.TA(TA), 
-		.TB(TB), 
-		.LA(LA), 
-		.LB(LB), 
-		.clk(clk), 
+	fsmPeriferico1 uut2 (
+		.dado(dadoInput),
+		.send(sendInput), 
+		.ack(ack), 
+		.clk(clkPeriferico1), 
 		.rst(rst)
 	);
 
-	fsmPeriferico2 uut (
-		.TA(TA), 
-		.TB(TB), 
-		.LA(LA), 
-		.LB(LB), 
-		.clk(clk), 
-		.rst(rst)
-	);
 	
 	initial begin
 		// Initialize Inputs
       
       $dumpfile("dump.vcd");
       $dumpvars;
-		TA = 0;
-		TB = 0;
-		clk = 0;
+		P = 0;
+		ackInput = 0; 
+		dadoInput = 1;
+		sendInput = 0;
+		clkProcessador = 0;
+		clkPeriferico1 = 0;
 		rst = 1;
 
 		// Wait 100 ns for global reset to finish
 		#100;
         rst = 0;
-        #100;
+        #10;
         
 		// Add stimulus here
-		TA = 1;
-		#50;
-		TB = 1;
-		#10;
-		TA = 0;
-		#30;
-		TB = 0;
-		TA = 1;
+		ackInput = 1;
+		#40;
+		ackInput = 0;
+		#40;
+		// #50;
+		// send = 0;
+		// #10;
 	  $finish;
 	end
-   always  #5  clk =  ! clk;
+   always  #10  clkProcessador =  ! clkProcessador;
+   always  #17  clkPeriferico1 =  ! clkPeriferico1;
 endmodule
