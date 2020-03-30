@@ -7,9 +7,6 @@ module testaprocessadorperifericos;
 	// Inputs
 	reg P;
 	reg rst;
-	// reg dado;
-	// reg send;
-	// reg ack;
 
 	reg clkProcessador;
 	reg clkPeriferico1;

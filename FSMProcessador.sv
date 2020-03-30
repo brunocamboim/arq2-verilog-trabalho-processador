@@ -2,7 +2,7 @@
 // Code your design here
 module fsmProcessador (P, ack, dado, send, clk, rst);
     input P;
-    input ack;
+    input [1:0] ack;
     output reg [15:0] dado;
     output reg [1:0] send;
     input clk;//clock

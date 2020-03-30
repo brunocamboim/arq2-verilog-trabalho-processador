@@ -1,6 +1,6 @@
 module fsmPeriferico1 (dado, send, ack, clk, rst);
-    input dado;
-    input send;
+    input [15:0] dado;
+    input [1:0] send;
     output reg [1:0] ack;
     input clk;//clock
     input rst;//reset
