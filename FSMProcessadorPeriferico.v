@@ -1,4 +1,3 @@
-
 // Code your testbench here
 // or browse Examples
 `timescale 1ns / 1ps
@@ -7,11 +6,10 @@ module testaprocessadorperifericos;
 
 	// Inputs
 	reg P;
-	reg ackInput;
 	reg rst;
-
-	reg dadoInput;
-	reg sendInput;
+	// reg dado;
+	// reg send;
+	// reg ack;
 
 	reg clkProcessador;
 	reg clkPeriferico1;
@@ -25,7 +23,7 @@ module testaprocessadorperifericos;
 	// Instantiate the Unit Under Test (UUT)
 	fsmProcessador uut1 (
 		.P(P),
-		.ack(ackInput), 
+		.ack(ack), 
 		.dado(dado), 
 		.send(send), 
 		.clk(clkProcessador), 
@@ -33,8 +31,8 @@ module testaprocessadorperifericos;
 	);
 
 	fsmPeriferico1 uut2 (
-		.dado(dadoInput),
-		.send(sendInput), 
+		.dado(dado),
+		.send(send), 
 		.ack(ack), 
 		.clk(clkPeriferico1), 
 		.rst(rst)
@@ -47,9 +45,9 @@ module testaprocessadorperifericos;
       $dumpfile("dump.vcd");
       $dumpvars;
 		P = 0;
-		ackInput = 0; 
-		dadoInput = 1;
-		sendInput = 0;
+		ack = 0; 
+		dado = 0;
+		send = 0;
 		clkProcessador = 0;
 		clkPeriferico1 = 0;
 		rst = 1;
@@ -60,9 +58,9 @@ module testaprocessadorperifericos;
         #10;
         
 		// Add stimulus here
-		ackInput = 1;
+		ack = 1;
 		#40;
-		ackInput = 0;
+		ack = 0;
 		#40;
 		// #50;
 		// send = 0;
