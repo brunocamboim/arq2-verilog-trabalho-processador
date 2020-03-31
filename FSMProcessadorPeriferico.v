@@ -35,6 +35,14 @@ module testaprocessadorperifericos;
 		.rst(rst)
 	);
 
+	fsmPeriferico2 uut3 (
+		.dado(dado),
+		.send(send), 
+		.ack(ack), 
+		.clk(clkPeriferico2), 
+		.rst(rst)
+	);
+
 	
 	initial begin
 		// Initialize Inputs
@@ -42,28 +50,21 @@ module testaprocessadorperifericos;
       $dumpfile("dump.vcd");
       $dumpvars;
 		P = 0;
-		ack = 0; 
-		dado = 0;
-		send = 0;
 		clkProcessador = 0;
 		clkPeriferico1 = 0;
+		clkPeriferico2 = 0;
 		rst = 1;
 
 		// Wait 100 ns for global reset to finish
 		#100;
         rst = 0;
-        #10;
+        #100;
         
 		// Add stimulus here
-		ack = 1;
-		#40;
-		ack = 0;
-		#40;
-		// #50;
-		// send = 0;
-		// #10;
+		
 	  $finish;
 	end
    always  #10  clkProcessador =  ! clkProcessador;
    always  #17  clkPeriferico1 =  ! clkPeriferico1;
+   always  #8  	clkPeriferico2 =  ! clkPeriferico2;
 endmodule
