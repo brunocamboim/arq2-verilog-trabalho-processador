@@ -5,7 +5,6 @@
 module testaprocessadorperifericos;
 
 	// Inputs
-	reg P;
 	reg rst;
 
 	reg clkProcessador;
@@ -15,21 +14,24 @@ module testaprocessadorperifericos;
 	// Outputs
 	wire [15:0] dado;
 	wire [1:0] send;
+	wire [1:0] send2;
 	wire [1:0] ack;
+	wire [1:0] ack2;
 
 	// Instantiate the Unit Under Test (UUT)
 	fsmProcessador uut1 (
-		.P(P),
 		.ack(ack), 
+		.send(send),
+		.ack2(ack2),
+		.send2(send2),
 		.dado(dado), 
-		.send(send), 
 		.clk(clkProcessador), 
 		.rst(rst)
 	);
 
 	fsmPeriferico1 uut2 (
 		.dado(dado),
-		.send(send), 
+		.send(send),
 		.ack(ack), 
 		.clk(clkPeriferico1), 
 		.rst(rst)
@@ -37,8 +39,8 @@ module testaprocessadorperifericos;
 
 	fsmPeriferico2 uut3 (
 		.dado(dado),
-		.send(send), 
-		.ack(ack), 
+		.send(send2), 
+		.ack(ack2), 
 		.clk(clkPeriferico2), 
 		.rst(rst)
 	);
@@ -49,7 +51,7 @@ module testaprocessadorperifericos;
       
       $dumpfile("dump.vcd");
       $dumpvars;
-		P = 0;
+
 		clkProcessador = 0;
 		clkPeriferico1 = 0;
 		clkPeriferico2 = 0;
