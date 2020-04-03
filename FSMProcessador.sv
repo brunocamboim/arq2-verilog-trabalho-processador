@@ -1,24 +1,24 @@
 `timescale 1ns / 1ps
 // Code your design here
-module fsmProcessador (P, ack, dado, send, clk, rst);
-    input P;
+module fsmProcessador (ack, send, ack2, send2, dado, clk, rst);
     input [1:0] ack;
+    input [1:0] ack2;
     output reg [15:0] dado;
     output reg [1:0] send;
+    output reg [1:0] send2;
     input clk;//clock
     input rst;//reset
 
     reg [1:0] S;//state processador
     reg [1:0] NS;//next state processador
-    // reg [1:0] SM;//state mode
-    // reg [1:0] NSM;//next state mode
-    // reg [1:0] M;// variavel mode
   
     always @ (posedge clk)
         begin
             if (rst == 1) begin
                     S <= 2'b00;
                     send <= 2'b01;
+                    send2 <= 2'b01;
+                    dado <= 16'b00;
                 end
             else 
                 S <= NS;
@@ -26,71 +26,43 @@ module fsmProcessador (P, ack, dado, send, clk, rst);
   
     always @ (*)
         begin
-            case ({S})
-                2'b00 : begin
-                    if (ack == 0)
+            if (ack == 0) 
+                begin
+                    if (ack2 == 0) 
                         NS = 2'b00;
                     else
-                        NS = 2'b01;
+                        NS = 2'b10;
                 end
-                2'b01 : begin
-                    if (ack == 0)
-                        NS = 2'b00;
+            else
+                begin
+                    if (ack2 == 0) 
+                        NS = 2'b01;
                     else
-                        NS = 2'b01;
+                        NS = 2'b11;
                 end
-            endcase
         end
 
     always @ (*)
         begin
+            dado = dado + 1;
             case ({S})
                 2'b00 : begin
                     send = 2'b01;
+                    send2 = 2'b01;
                 end
                 2'b01 : begin
                     send = 2'b00;
+                    send2 = 2'b01;
+                end
+                2'b10 : begin
+                    send = 2'b01;
+                    send2 = 2'b00;
+                end
+                2'b11 : begin
+                    send = 2'b00;
+                    send2 = 2'b00;
                 end
             endcase
         end
-
-  //mode
-    // always @ (posedge clk)
-    //     begin
-    //         if (rst == 1)
-    //             SM <= 2'b00;
-    //         else 
-    //             SM <= NSM;
-    //     end
-  
-    // always @ (*)
-    //     begin
-    //         case ({SM})
-    //             2'b00 : begin
-    //                 if (P == 0)
-    //                     NSM = 2'b00;
-    //                 else
-    //                     NSM = 2'b01;
-    //             end
-    //             2'b01 : begin
-    //                 if (R == 0)
-    //                     NSM = 2'b01;
-    //                 else
-    //                     NSM = 2'b00;
-    //             end
-    //         endcase
-    //     end
-
-    // always @ (*)
-    //     begin
-    //         case ({S})
-    //             2'b00 : begin
-    //                 M = 2'b00;
-    //             end
-    //             2'b01 : begin
-    //                 M = 2'b01;
-    //             end
-    //         endcase
-    //     end
   
 endmodule
