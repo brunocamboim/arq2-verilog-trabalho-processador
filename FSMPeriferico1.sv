@@ -12,7 +12,6 @@ module fsmPeriferico1 (dado, send, ack, clk, rst);
         begin
             if (rst == 1) begin
                     S <= 2'b00;
-                    ack <= 2'b00;
                 end
             else 
                 S <= NS;
